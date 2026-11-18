@@ -150,7 +150,7 @@ class BobApp(SessaoMixin, InteracaoMixin, QObject):
         self.pet.drag_ended.connect(lambda: self.senses.set_dragging(False))
         self.pet.thrown.connect(self.on_thrown)
         self.pet.menu_requested.connect(self.show_pet_menu)
-        self.ball_stored = False    # você guardou a bolinha pelo menu
+        self.ball_stored = True     # esta versão mostra somente o Bob, sem bolinha
         self.mischief = MischiefEngine(self.conteudo)
         self.mischief.dismissed.connect(self.on_dismissed)
         self.behavior = Behavior(self.pet.body, self.pet_state, self.mischief)
@@ -178,6 +178,7 @@ class BobApp(SessaoMixin, InteracaoMixin, QObject):
         self.mischief_ctl.postit_weight = Play(self.play_weights).weight("postit")
         self.festa = FestaController(self.debugging)
         self.mesa = MesaController(self.debugging, self)
+        self.mesa.escondido = True  # sem notebook e sem sentar em um objeto invisível
         self.castigo = CastigoController(self, self.debugging)
         paper = load_sprite(self.conteudo.bolinha_papel)
         self.revolucao = RevolucaoController(self.behavior.play, self.debugging, sprite=paper)

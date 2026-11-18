@@ -48,7 +48,7 @@ DEFAULT_PERMISSIONS = {
     "rotina": False,           # grava a timeline por minuto (só categorias); nada usa esses dados ainda
     "modo_teste": False,       # desligado por padrão: o modo teste é só para desenvolvimento
     "mostrar_emocao": False,   # só vale com modo_teste ligado
-    "bolinha": True,           # a bolinha para ele brincar
+    "bolinha": False,          # esta versão não mostra a bolinha
     "fogos": True,             # fogo de artifício quando ele fica feliz de verdade (rede)
 }
 
@@ -79,7 +79,6 @@ PERMISSION_GROUPS = [
     ]),
     ("Brincadeira", [
         ("fogos", "Fogos de artifício", "Quando ele fica muito feliz, a alegria da rede pode soltar um fogo."),
-        ("bolinha", "Bolinha", "Uma bolinha para ele brincar. Se você levar para longe, ele reage (pode ficar triste, bravo ou ir atrás)."),
     ]),
     ("Teste", [
         ("modo_teste", "Modo teste", "Tempos curtos: travessuras e emoções acontecem em segundos."),

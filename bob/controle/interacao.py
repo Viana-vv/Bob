@@ -119,13 +119,7 @@ class InteracaoMixin:
         item("Cutucar", self.menu_poke, perms["cutucar"])
         item("Dar carinho", self.menu_caress, perms["carinho"])
         menu.addSeparator()
-        item("Jogar a bolinha perto dele", self.menu_place_ball, perms["bolinha"])
-        item("Guardar a bolinha", self.menu_store_ball, perms["bolinha"] and not self.ball_stored)
-        menu.addSeparator()
         item("Pedir para dormir", self.menu_sleep, not self.asleep)
-        item("Pedir para trabalhar", self.menu_pedir_trabalho)
-        item("Mostrar o notebook" if self.mesa.escondido else "Esconder o notebook",
-             self.menu_alternar_notebook)
         item("Fazer uma travessura agora", self.menu_mischief, perms["travessuras"])
         menu.addSeparator()
         item("Cantinho do castigo", lambda: self.castigo.toggle(self.bounds()))

@@ -7,6 +7,7 @@
 [Setup]
 AppId={{14B5C0D9-AD12-47AE-9145-EB3AC23DAF10}
 AppName=Bob
+SetupIconFile=bob.ico
 AppVersion={#Versao}
 DefaultDirName={localappdata}\Programs\Bob
 DefaultGroupName=Bob

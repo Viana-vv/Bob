@@ -8,7 +8,7 @@ a autoria do projeto original é preservada. As imagens e os textos de `assets/`
 cobertos pela licença GPL do código, conforme o aviso do projeto original.
 
 Bob é seu personagem de tela para Windows, macOS e Linux: corpo preto, olhos e moldura brancos.
-Ele cai, quica, pousa nas janelas, brinca com uma bolinha, trabalha num notebook e aprende com suas interações.
+Ele cai, quica, pousa nas janelas e aprende com suas interações. A bola e o notebook foram retirados da tela e dos menus.
 Esta versão inclui apenas o Bob. Seu identificador interno continua `bryan` para preservar a memória existente.
 
 Quem decide o que o pet sente e faz é uma **rede neural pulsada** de 470 neurônios (integração e disparo com
@@ -31,8 +31,6 @@ e sua configuração em `pets/bryan.json`. A memória que já existia continua s
 | **Corpo** | Gravidade, quique, giro, pouso nas barras de título. Você arrasta, joga e gira com a rodinha. |
 | **Emoções** | Saem dos motores da rede: feliz, contente, curioso, observando, bravo, triste, assustado, dramático, dormindo. |
 | **Carinho** | Passe o mouse de um lado para o outro em cima dele: fecha os olhinhos de felicidade e aprende com isso. |
-| **Bolinha** | Ele chuta e arremessa uma bolinha de tênis; você pode pegar, levar embora (ele reage) ou guardar. |
-| **Notebook** | Quando você trabalha (VS Code, Visual Studio, PyCharm, Claude, Codex), ele pode sentar atrás do notebook e trabalhar junto. Você também pode pedir; ele decide se quer. |
 | **Travessuras** | Traz memes, fotos e post-its para a tela. Com que frequência é decidido pela rede (tédio, curiosidade). |
 | **Protesto** | Bravo por muito tempo: reclamação, manifestação, greve e revolução contra o cursor, com cartazes e bolinhas de papel. |
 | **Tristeza** | Sozinho ou ignorado, fica triste, vai para o cantinho e cola bilhetes tristes. |
@@ -163,7 +161,7 @@ O PyInstaller só gera o executável do sistema onde roda, por isso um Windows n
 2. Gere o executável, no Windows:
 
    ```bash
-   python -m PyInstaller --noconfirm --onefile --windowed --name Bob --distpath build/onefile --workpath build/work --specpath build --hidden-import win32timezone --version-file "$PWD/instalador/bob-version.txt" main.py
+   python -m PyInstaller --noconfirm --onefile --windowed --name Bob --distpath build/onefile --workpath build/work --specpath build --hidden-import win32timezone --version-file "$PWD/instalador/bob-version.txt" --icon "$PWD/instalador/bob.ico" main.py
    ```
 
    No macOS e no Linux, use o mesmo comando sem `--windowed` e sem `--hidden-import win32timezone` e sem `--version-file instalador/bob-version.txt`. No Linux,

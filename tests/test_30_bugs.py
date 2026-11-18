@@ -78,6 +78,7 @@ def test_01_ligar_cantinho_escondido_nao_mostra_placa(mundo):
 # 02
 def test_02_esconder_notebook_pausado_levanta(mundo):
     b = mundo.b
+    b.mesa.escondido = False  # simula o estado antigo com notebook aberto
     b.mesa.decisao.at_desk = True
     b.toggle_pause()
     b.menu_alternar_notebook()

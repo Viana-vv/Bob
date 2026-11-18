@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           EXTRA=""
-          if [ "$RUNNER_OS" = "Windows" ]; then EXTRA="--windowed --hidden-import win32timezone --version-file $PWD/instalador/bob-version.txt"; fi
+          if [ "$RUNNER_OS" = "Windows" ]; then EXTRA="--windowed --hidden-import win32timezone --version-file $PWD/instalador/bob-version.txt --icon $PWD/instalador/bob.ico"; fi
           # --specpath build: caminho absoluto, senão o PyInstaller procura o script do KWin dentro de build/
           if [ "$RUNNER_OS" = "Linux" ]; then EXTRA="--add-data $PWD/bob/plataforma/kwin_ponte.js:bob/plataforma"; fi
           python -m PyInstaller --noconfirm --onefile $EXTRA --name Bob \
