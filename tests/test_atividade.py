@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.sense.senses import ACTIVITY_APPS, detect_activity  # noqa: E402
+from bob.sense.senses import ACTIVITY_APPS, detect_activity  # noqa: E402
 
 
 def test_editores_e_assistentes_sao_programacao():

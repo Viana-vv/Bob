@@ -1,5 +1,5 @@
 """
-Regra de camadas do pacote `pestinha`: cada camada só importa das que estão abaixo dela.
+Regra de camadas do pacote `bob`: cada camada só importa das que estão abaixo dela.
 
     core  <  sense  <  body  <  world  <  mind  <  ui  <  controle  <  app
 
@@ -9,7 +9,7 @@ usados por todas. `core/` é puro: sem Qt e sem Windows, para ser testável em q
 import ast
 from pathlib import Path
 
-RAIZ = Path(__file__).resolve().parent.parent / "pestinha"
+RAIZ = Path(__file__).resolve().parent.parent / "bob"
 ORDEM = ["core", "sense", "body", "world", "mind", "ui", "controle", "app"]
 COMPARTILHADOS = {"ajustes", "config", "store", "log", "mathutil", "paths", "settings_store", "__init__",
                   "plataforma"}

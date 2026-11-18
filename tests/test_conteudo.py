@@ -15,10 +15,10 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.core.protesto import DEFAULT_SIGNS, load_signs  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.core.protesto import DEFAULT_SIGNS, load_signs  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 PNG = (b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89"
        b"\x00\x00\x00\rIDATx\x9cc\xf8\xff\xff?\x00\x05\xfe\x02\xfe\xa7V\xbd\xfa\x00\x00\x00\x00IEND\xaeB`\x82")
@@ -88,7 +88,7 @@ def test_frases_neutras_nao_sao_de_nenhum_personagem():
 
 def test_id_invalido_nao_vira_pasta_de_conteudo(tmp_path):
     with pytest.raises(ValueError):
-        Paths(root=tmp_path).conteudo("../pestinha")
+        Paths(root=tmp_path).conteudo("../bob")
 
 
 # ---------------- o repositório ----------------
@@ -115,7 +115,7 @@ def test_comum_nao_tem_frases_nem_memes():
 
 def test_nenhum_caminho_de_conteudo_montado_fora_de_paths():
     fora = []
-    for arquivo in (ROOT / "pestinha").rglob("*.py"):
+    for arquivo in (ROOT / "bob").rglob("*.py"):
         if arquivo.name == "paths.py":
             continue
         for n, linha in enumerate(arquivo.read_text(encoding="utf-8").splitlines(), 1):
@@ -128,12 +128,12 @@ def test_nenhum_caminho_de_conteudo_montado_fora_de_paths():
 
 def criar_app(tmp_path, monkeypatch, pet):
     QApplication.instance() or QApplication([])
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
     paths = Paths(root=tmp_path)
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, pet=pet, travessuras=True))
-    app = app_mod.PestinhaApp(store, paths)
+    app = app_mod.BobApp(store, paths)
     for timer in app.findChildren(app_mod.QTimer):
         timer.stop()
     return app

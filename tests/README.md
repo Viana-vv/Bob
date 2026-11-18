@@ -22,7 +22,7 @@ A exceção é `test_macos_real.py`: no macOS, abre janelinhas de verdade por al
 | `test_30_bugs.py` | Regressão dos 30 bugs encontrados na rodada de fuzzing e revisão (docs/auditorias/BUGS_30_RODADA.md). |
 | `test_aparencia.py` | Etapa 5 do multipet: cores e acessórios por pet, numa camada por cima do rosto. |
 | `test_app.py` | Testes de integração do app, com Qt em modo offscreen e tudo numa pasta temporária. |
-| `test_arquitetura.py` | Regra de camadas do pacote `pestinha`: cada camada só importa das que estão abaixo dela. |
+| `test_arquitetura.py` | Regra de camadas do pacote `bob`: cada camada só importa das que estão abaixo dela. |
 | `test_atividade.py` | Programas de trabalho: VS Code, Claude e Codex contam como programação. |
 | `test_auditoria_30.py` | Contratos dos 30 bugs da auditoria (docs/auditorias/AUDITORIA_30_BUGS.md). |
 | `test_bolinha.py` | Testes da bolinha e da tristeza (abandono). |

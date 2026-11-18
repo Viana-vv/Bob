@@ -20,14 +20,14 @@ import pytest  # noqa: E402
 import numpy as np  # noqa: E402
 from PySide6.QtCore import QTimer  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
-from pestinha import config, log as log_module  # noqa: E402
-from pestinha.app import PestinhaApp  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
-from pestinha.body.pet_state import PetState  # noqa: E402
-from pestinha.body.behavior import Behavior  # noqa: E402
-from pestinha.core.physics import Body  # noqa: E402
-from pestinha.mind.castigo_ctl import CastigoController, LIMIAR_FUGA_HZ  # noqa: E402
+from bob import config, log as log_module  # noqa: E402
+from bob.app import BobApp  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
+from bob.body.pet_state import PetState  # noqa: E402
+from bob.body.behavior import Behavior  # noqa: E402
+from bob.core.physics import Body  # noqa: E402
+from bob.mind.castigo_ctl import CastigoController, LIMIAR_FUGA_HZ  # noqa: E402
 
 BOUNDS = (0, 0, 1000, 700)
 GROUPS = {
@@ -60,14 +60,14 @@ def scene(qt_app, tmp_path, monkeypatch, request):
     before = set(qt_app.topLevelWidgets())
     random.seed(1000 + case["id"])
     if case["group"] in ("sessao", "rede"):
-        monkeypatch.setattr("pestinha.app.PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
-        monkeypatch.setattr("pestinha.app.senses.get_active_app", lambda: "code.exe")
-        monkeypatch.setattr("pestinha.app.senses.get_idle_seconds", lambda: 0.)
-        monkeypatch.setattr("pestinha.app.senses.is_fullscreen", lambda: False)
-        monkeypatch.setattr("pestinha.app.senses.list_windows", lambda exclude, *args, **kwargs: [])
+        monkeypatch.setattr("bob.app.PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
+        monkeypatch.setattr("bob.app.senses.get_active_app", lambda: "code.exe")
+        monkeypatch.setattr("bob.app.senses.get_idle_seconds", lambda: 0.)
+        monkeypatch.setattr("bob.app.senses.is_fullscreen", lambda: False)
+        monkeypatch.setattr("bob.app.senses.list_windows", lambda exclude, *args, **kwargs: [])
         store = SettingsStore(Paths(tmp_path))
         store.update(dict(config.DEFAULT_PERMISSIONS, rotina=False, travessuras=False))
-        app = PestinhaApp(store, Paths(tmp_path))
+        app = BobApp(store, Paths(tmp_path))
         app.bounds = lambda: BOUNDS
         app.brain.rng = np.random.default_rng(42)
         for timer in app.findChildren(QTimer):
@@ -181,7 +181,7 @@ def scenario_gaze(s, i, monkeypatch):
 
 
 def spawn(s, monkeypatch, now=1.):
-    monkeypatch.setattr("pestinha.mind.castigo_ctl.random.random", lambda: 0.)
+    monkeypatch.setattr("bob.mind.castigo_ctl.random.random", lambda: 0.)
     tick(s, now, {"CARTAZ": 100})
 
 
@@ -192,7 +192,7 @@ def scenario_signs(s, i, monkeypatch):
                                   (2, 0., 1, True), (10, .3, .2, True),
                                   (10, .9, .2, False), (100, 0., .1, False)][i]
         # GANHO_CARTAZ passou de 0,05 para 0,5: o disparo de 100 Hz virou 10 Hz para manter a mesma chance
-        monkeypatch.setattr("pestinha.mind.castigo_ctl.random.random", lambda: draw)
+        monkeypatch.setattr("bob.mind.castigo_ctl.random.random", lambda: draw)
         tick(s, now, {"CARTAZ": hz})
         return result(s.c.cartaz is not None, expected)
     spawn(s, monkeypatch)
@@ -247,7 +247,7 @@ def scenario_escape_end(s, i, monkeypatch):
 
 def scenario_persistence(s, i, monkeypatch):
     if i == 9:
-        monkeypatch.setattr("pestinha.mind.castigo_ctl.write_json", Mock(side_effect=PermissionError("disco indisponível")))
+        monkeypatch.setattr("bob.mind.castigo_ctl.write_json", Mock(side_effect=PermissionError("disco indisponível")))
         s.c.fuga = 0.
         s.body.x = 300
         try:

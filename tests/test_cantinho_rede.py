@@ -11,14 +11,14 @@ import numpy as np  # noqa: E402
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha.ajustes import LIMIAR_SENTAR_HZ  # noqa: E402
-from pestinha.body.pet_state import PetState  # noqa: E402
-from pestinha.core.conditioning import Conditioning  # noqa: E402
-from pestinha.core.episodic import EpisodicMemory  # noqa: E402
-from pestinha.core.homeostasis import Drives  # noqa: E402
-from pestinha.core.nervous_system import LIFBrain  # noqa: E402
-from pestinha.mind.castigo_ctl import LIMIAR_PERDAO_HZ, CastigoController  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
+from bob.ajustes import LIMIAR_SENTAR_HZ  # noqa: E402
+from bob.body.pet_state import PetState  # noqa: E402
+from bob.core.conditioning import Conditioning  # noqa: E402
+from bob.core.episodic import EpisodicMemory  # noqa: E402
+from bob.core.homeostasis import Drives  # noqa: E402
+from bob.core.nervous_system import LIFBrain  # noqa: E402
+from bob.mind.castigo_ctl import LIMIAR_PERDAO_HZ, CastigoController  # noqa: E402
+from bob.paths import Paths  # noqa: E402
 
 BOUNDS = (0, 0, 1000, 700)
 PROF = {"sleep_recover": 60.0, "energy_span": 300.0, "stim_decay": 40.0, "contact_span": 120.0}

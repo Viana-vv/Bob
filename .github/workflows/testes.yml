@@ -25,7 +25,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends libegl1
       # Só o necessário para os testes: sem PyInstaller (o executável é gerado à parte).
       - run: pip install -r requirements.txt pytest==8.4.2 pyflakes==4.1.0
-      - run: python -m pyflakes pestinha tests main.py ferramentas conftest.py
+      - run: python -m pyflakes bob tests main.py ferramentas conftest.py
       - name: Verificar versão de PySide6 no Linux
         if: runner.os == 'Linux'
         run: |

@@ -1,7 +1,7 @@
 [project]
-name = "pestinha"
+name = "bob"
 version = "0.8.0"
-description = "Pestinha: pets de tela para Windows, macOS e Linux, cada um com uma rede neural pulsada."
+description = "Bob: pets de tela para Windows, macOS e Linux, cada um com uma rede neural pulsada."
 requires-python = ">=3.11"
 readme = "README.md"
 license = "GPL-3.0-or-later"

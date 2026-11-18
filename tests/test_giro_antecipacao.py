@@ -11,9 +11,9 @@ from types import SimpleNamespace
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.body.behavior import SPIN_DEGREES, WINDUP_LEAN, WINDUP_SECONDS, Behavior  # noqa: E402
-from pestinha.body.pet_state import PetState  # noqa: E402
-from pestinha.core.physics import Body  # noqa: E402
+from bob.body.behavior import SPIN_DEGREES, WINDUP_LEAN, WINDUP_SECONDS, Behavior  # noqa: E402
+from bob.body.pet_state import PetState  # noqa: E402
+from bob.core.physics import Body  # noqa: E402
 
 PROF = {"roam_interval": (5.0, 6.0)}
 BOUNDS = (0, 0, 1920, 1080)

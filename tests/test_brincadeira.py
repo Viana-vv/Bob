@@ -8,9 +8,9 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.body.brincadeira import Play  # noqa: E402
-from pestinha.core.physics import Body  # noqa: E402
-from pestinha.body.toy import RADIUS, bounce_off  # noqa: E402
+from bob.body.brincadeira import Play  # noqa: E402
+from bob.core.physics import Body  # noqa: E402
+from bob.body.toy import RADIUS, bounce_off  # noqa: E402
 
 
 class FakeBall:
@@ -77,7 +77,7 @@ def test_arremesso_no_bravo_chega_perto_do_cursor():
             break
     assert act == "throw"
     # simula o voo sem chão nem paredes e vê onde a bolinha passa
-    from pestinha.core.physics import GRAVITY
+    from bob.core.physics import GRAVITY
     x, y, vx, vy, dt = ball.body.x, ball.body.y, ball.body.vx, ball.body.vy, 1 / 120
     closest = 1e9
     for _ in range(120):
@@ -89,7 +89,7 @@ def test_arremesso_no_bravo_chega_perto_do_cursor():
 
 
 def test_cursor_que_encosta_chuta_a_bolinha_para_longe():
-    from pestinha.body.toy import push_from_cursor
+    from bob.body.toy import push_from_cursor
     ball = FakeBall(300.0, 300.0)
     ball.dragging = False
     ball.place = lambda: None

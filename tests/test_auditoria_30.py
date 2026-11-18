@@ -14,19 +14,19 @@ import pytest
 from PySide6.QtCore import QTimer, Qt
 from PySide6.QtWidgets import QApplication, QMessageBox
 
-from pestinha import config
-from pestinha.app import PestinhaApp
-from pestinha.paths import Paths
-from pestinha.settings_store import SettingsStore
-from pestinha.world.arrastavel import FloatingWidget
-from pestinha.body.brincadeira import Play
-from pestinha.body.toy import bounce_off, RADIUS
-from pestinha.core.physics import Body
-from pestinha.core.protesto import Protesto
-from pestinha.core.nervous_system import LIFBrain
-from pestinha.core.episodic import EpisodicMemory
-from pestinha.mind.castigo_ctl import CastigoController
-from pestinha import log as log_module
+from bob import config
+from bob.app import BobApp
+from bob.paths import Paths
+from bob.settings_store import SettingsStore
+from bob.world.arrastavel import FloatingWidget
+from bob.body.brincadeira import Play
+from bob.body.toy import bounce_off, RADIUS
+from bob.core.physics import Body
+from bob.core.protesto import Protesto
+from bob.core.nervous_system import LIFBrain
+from bob.core.episodic import EpisodicMemory
+from bob.mind.castigo_ctl import CastigoController
+from bob import log as log_module
 
 
 @pytest.fixture(scope="module")
@@ -39,15 +39,15 @@ def qa_qapp():
 @pytest.fixture
 def audit_buddy(qa_qapp, tmp_path, monkeypatch):
     previous = set(qa_qapp.topLevelWidgets())
-    monkeypatch.setattr("pestinha.app.PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
-    monkeypatch.setattr("pestinha.app.senses.get_active_app", lambda: "code.exe")
-    monkeypatch.setattr("pestinha.app.senses.get_idle_seconds", lambda: 0.)
-    monkeypatch.setattr("pestinha.app.senses.is_fullscreen", lambda: False)
-    monkeypatch.setattr("pestinha.app.senses.list_windows", lambda exclude, escala=1.0: [])
+    monkeypatch.setattr("bob.app.PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
+    monkeypatch.setattr("bob.app.senses.get_active_app", lambda: "code.exe")
+    monkeypatch.setattr("bob.app.senses.get_idle_seconds", lambda: 0.)
+    monkeypatch.setattr("bob.app.senses.is_fullscreen", lambda: False)
+    monkeypatch.setattr("bob.app.senses.list_windows", lambda exclude, escala=1.0: [])
     paths = Paths(tmp_path)
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, rotina=False, travessuras=True))
-    buddy = PestinhaApp(store, paths)
+    buddy = BobApp(store, paths)
     for timer in buddy.findChildren(QTimer):
         timer.stop()
     yield buddy
@@ -160,7 +160,7 @@ def test_11_peso_postit_zero_realmente_desliga_postit(audit_buddy, monkeypatch):
     b = audit_buddy
     prepare_mischief(b)
     b.mischief_ctl.postit_weight = 0
-    monkeypatch.setattr("pestinha.mind.mischief_ctl.random.random", lambda: 0.)
+    monkeypatch.setattr("bob.mind.mischief_ctl.random.random", lambda: 0.)
     result = b.mischief_ctl.maybe_act(time.monotonic(), .016, b.bounds(), (0, 0), b.pet.body,
         motores={"TRAVESSURA": 100}, activity="IDLE", emotion="curioso", perms=b.perms,
         prof=b.prof, fullscreen=False, asleep=False, protest_stage=0)
@@ -172,7 +172,7 @@ def test_12_bryan_nao_chuta_bola_segurada_pelo_usuario(audit_buddy, monkeypatch)
     b.ball.show()
     b.ball.dragging = True
     b.ball.body.x, b.ball.body.y = b.pet.body.x, b.pet.body.y
-    monkeypatch.setattr("pestinha.body.brincadeira.random.random", lambda: 0.)
+    monkeypatch.setattr("bob.body.brincadeira.random.random", lambda: 0.)
     assert Play({"bola": 1}).tick(100, b.pet.body, b.ball, (0, 0), "feliz") is None
 
 
@@ -295,7 +295,7 @@ def test_26_apagar_historico_descarta_minuto_anterior_em_ram(audit_buddy, monkey
 
 
 def test_27_revogar_travessuras_recolhe_objetos_ja_exibidos(audit_buddy):
-    from pestinha.world.objetos import NoteThing
+    from bob.world.objetos import NoteThing
     b = audit_buddy
     note = NoteThing("Teste")
     b.mischief._add(note)
@@ -314,7 +314,7 @@ def test_29_levantamento_de_janelas_nao_le_titulos(monkeypatch):
     import sys
     if sys.platform != "win32":
         pytest.skip("caminho específico do Windows (plataforma/windows.py)")
-    from pestinha.plataforma import windows as win_mod
+    from bob.plataforma import windows as win_mod
     monkeypatch.setattr(win_mod.win32gui, "EnumWindows", lambda cb, arg: cb(1, arg))
     monkeypatch.setattr(win_mod.win32gui, "IsWindowVisible", lambda hwnd: True)
     monkeypatch.setattr(win_mod.win32gui, "IsIconic", lambda hwnd: False)
@@ -334,7 +334,7 @@ def test_30_janela_que_sumiu_no_meio_da_leitura_degrada_para_desconhecida(monkey
     if sys.platform != "win32":
         pytest.skip("caminho específico do Windows (plataforma/windows.py)")
     import pywintypes
-    from pestinha.plataforma import windows as win_mod
+    from bob.plataforma import windows as win_mod
     monkeypatch.setattr(win_mod.win32gui, "GetForegroundWindow", lambda: 123)
     monkeypatch.setattr(win_mod.win32process, "GetWindowThreadProcessId",
                         Mock(side_effect=pywintypes.error(1400, "GetWindowThreadProcessId", "Janela inválida")))

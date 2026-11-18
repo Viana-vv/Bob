@@ -8,9 +8,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.core.homeostasis import Drives  # noqa: E402
-from pestinha.core.protesto import Protesto  # noqa: E402
-from pestinha.body.toy import FAR, NEAR, ToyTracker  # noqa: E402
+from bob.core.homeostasis import Drives  # noqa: E402
+from bob.core.protesto import Protesto  # noqa: E402
+from bob.body.toy import FAR, NEAR, ToyTracker  # noqa: E402
 
 
 def test_levar_a_bolinha_conta_uma_vez_e_rearma_ao_voltar():
@@ -34,7 +34,7 @@ def test_perto_dele_a_brincadeira_aparece():
 
 
 def test_tristeza_sobe_com_triste_e_sozinho(tmp_path):
-    from pestinha.paths import Paths
+    from bob.paths import Paths
     p = Protesto(Paths(root=tmp_path).conteudo("bryan").signs, tmp_path / "s.json", kind="tristeza")
     prof = {"grievance_up": 40.0, "grievance_down": 300.0, "stage_up": [0.2, 0.5, 0.8, 1.0],
             "stage_hyst": 0.06}

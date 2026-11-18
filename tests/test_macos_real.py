@@ -20,8 +20,8 @@ if sys.platform != "darwin":
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.plataforma import macos  # noqa: E402
-from pestinha.plataforma._comum import rodar  # noqa: E402
+from bob.plataforma import macos  # noqa: E402
+from bob.plataforma._comum import rodar  # noqa: E402
 
 JANELAS_DO_PET = ["pet", "bolinha", "objeto", "fogos", "painel"]
 

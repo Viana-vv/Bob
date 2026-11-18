@@ -23,7 +23,7 @@ LIMITE = 5.0        # segundos para o macOS trocar o foco ou esconder uma janela
 
 def sem_app():
     """sem_foco_nativo com um id qualquer e sem QApplication: o id não pode virar ponteiro."""
-    from pestinha.plataforma import macos
+    from bob.plataforma import macos
     macos.sem_foco_nativo(12345)
     return {"sobreviveu": True}
 
@@ -57,13 +57,13 @@ def janelas():
     import objc
     import Quartz
     from AppKit import NSApplication, NSPanel
-    from pestinha.body.bolinha import Ball
-    from pestinha.body.pet import PetWindow, overlay_flags
-    from pestinha.body.pet_state import PetState
-    from pestinha.plataforma import macos
-    from pestinha.world.arrastavel import FloatingWidget
-    from pestinha.world.fireworks import Fireworks
-    from pestinha.world.objetos import Thing
+    from bob.body.bolinha import Ball
+    from bob.body.pet import PetWindow, overlay_flags
+    from bob.body.pet_state import PetState
+    from bob.plataforma import macos
+    from bob.world.arrastavel import FloatingWidget
+    from bob.world.fireworks import Fireworks
+    from bob.world.objetos import Thing
 
     painel_app = SimpleNamespace(paths=SimpleNamespace(panels=Path(tempfile.mkdtemp()) / "panels.json"))
     sem_ajuste = QWidget(None, overlay_flags())     # a Qt.Tool pura, sem o set_no_activate do showEvent
@@ -133,7 +133,7 @@ def atalho():
     from PySide6.QtCore import QTimer
     from PySide6.QtWidgets import QApplication
     app = QApplication([])
-    from pestinha.plataforma import macos
+    from bob.plataforma import macos
 
     fora = []
     thread = threading.Thread(target=lambda: fora.append(macos.iniciar_atalho(lambda: None)))

@@ -10,14 +10,14 @@ import numpy as np  # noqa: E402
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.app import PestinhaApp  # noqa: E402
-from pestinha.core.episodic import EpisodicMemory  # noqa: E402
-from pestinha.core.homeostasis import Drives  # noqa: E402
-from pestinha.core.nervous_system import LIFBrain  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
-from pestinha.store import read_json, write_json  # noqa: E402
+from bob import config  # noqa: E402
+from bob.app import BobApp  # noqa: E402
+from bob.core.episodic import EpisodicMemory  # noqa: E402
+from bob.core.homeostasis import Drives  # noqa: E402
+from bob.core.nervous_system import LIFBrain  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
+from bob.store import read_json, write_json  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -32,7 +32,7 @@ def pet_app(qapp, tmp_path):
     paths = Paths(root=tmp_path)
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, travessuras=True))
-    app = PestinhaApp(store, paths)
+    app = BobApp(store, paths)
     yield app
     app.floats.hidden_by_tray = True
     for w in list(app.floats.windows.values()):
@@ -158,7 +158,7 @@ def test_troca_de_modo_atualiza_taxa_do_condicionamento(pet_app):
 
 # 6) a transição da rotina é vista pelo app
 def test_dialogo_nao_muda_o_dicionario_compartilhado(qapp, tmp_path):
-    from pestinha.ui.ui import SettingsDialog
+    from bob.ui.ui import SettingsDialog
     paths = Paths(root=tmp_path)
     perms = dict(config.DEFAULT_PERMISSIONS, rotina=True)
     dialog = SettingsDialog(perms, paths, first_run=False)
@@ -171,6 +171,6 @@ def test_apagar_dados_nao_recria_a_pasta(pet_app, monkeypatch):
     pet_app.memory.save()
     pet_app.wipe_all_data()
     assert not pet_app.paths.memory.exists()
-    from pestinha import log as log_module
+    from bob import log as log_module
     log_module.log("depois de apagar")       # o log não pode recriar a pasta
     assert not pet_app.paths.memory.exists()

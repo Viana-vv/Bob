@@ -97,7 +97,7 @@ computador e você ──► sentidos (0..1) ──► neurônios sensoriais (Po
 
 ## Decisões pela rede
 
-Os motores de decisão viram comportamento assim (valores em `pestinha/ajustes.py`):
+Os motores de decisão viram comportamento assim (valores em `bob/ajustes.py`):
 
 | Decisão | Regra |
 |---|---|

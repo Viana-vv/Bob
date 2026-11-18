@@ -1,4 +1,4 @@
-# Para rodar o Pestinha (Python 3.11 ou mais novo). Windows 10/11, macOS ou Linux (X11).
+# Para rodar o Bob (Python 3.11 ou mais novo). Windows 10/11, macOS ou Linux (X11).
 # CI Linux: 6.11.3 validado com 340 testes; 6.12.0 provoca abort nativo none_dealloc.
 # Só QtCore, QtGui e QtWidgets: o Essentials basta (o PySide6 completo traz WebEngine, QML, 3D...)
 PySide6-Essentials==6.11.3; sys_platform == "linux"

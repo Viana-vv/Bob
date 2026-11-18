@@ -1,6 +1,6 @@
-# Privacidade do Pestinha
+# Privacidade do Bob
 
-O Pestinha roda só no seu computador. Ele não envia nada para a internet.
+O Bob roda só no seu computador. Ele não envia nada para a internet.
 
 ## O que ele lê
 
@@ -10,7 +10,7 @@ O Pestinha roda só no seu computador. Ele não envia nada para a internet.
   cutucar) ou perto dele no cantinho do castigo.
 - Se uma janela cobre a tela inteira (para não aparecer em jogos ou apresentações).
 - A posição e o tamanho das janelas abertas, para ele poder pousar nas barras de título.
-- No KDE Plasma com Wayland, essas leituras vêm de um script do KWin (`pestinha/plataforma/kwin_ponte.js`)
+- No KDE Plasma com Wayland, essas leituras vêm de um script do KWin (`bob/plataforma/kwin_ponte.js`)
   que só existe enquanto o pet está aberto e manda geometria, pid e estado das janelas, nunca títulos.
 
 Ele **não** lê o conteúdo nem o título de nenhuma janela, página, documento ou conversa.
@@ -18,7 +18,7 @@ Ele **não** lê o conteúdo nem o título de nenhuma janela, página, documento
 ## O que ele grava
 
 Tudo fica na pasta de dados, mostrada na tela de configurações. Ela é `memory/` ao lado do programa ou, no
-executável do Windows, `%LOCALAPPDATA%\Pestinha` (a menos que já exista uma `memory/` ao lado dele). Abaixo,
+executável do Windows, `%LOCALAPPDATA%\Bob` (a menos que já exista uma `memory/` ao lado dele). Abaixo,
 `memory/` significa essa pasta. Desinstalar o programa não apaga esses dados.
 
 Do app e seu, direto em `memory/`:
@@ -28,7 +28,7 @@ Do app e seu, direto em `memory/`:
 | `permissions.json` | As opções que você escolheu |
 | `timeline.csv` | Uma linha por minuto: hora, categoria de programa, trocas de janela, ocioso. Só com "Registrar minha rotina" ligado, que vem desligado. O pet ainda não usa esse histórico |
 | `panels.json` | Posição dos painéis, do notebook e da placa |
-| `logs/pestinha.log` | Mensagens do programa e erros inesperados (sem conteúdo de janelas) |
+| `logs/bob.log` | Mensagens do programa e erros inesperados (sem conteúdo de janelas) |
 
 De cada personagem, em `memory/pets/<pet>/` (um personagem não lê a memória do outro):
 
@@ -51,7 +51,7 @@ os arquivos antigos e avisa no ícone da bandeja.
 
 - Na tela de configurações, **Apagar histórico** apaga a rotina (`timeline.csv`), inclusive o minuto que
   ainda estava na memória.
-- **Apagar todos os dados do Pestinha** apaga a pasta `memory/` inteira, com a memória de todos os personagens (pede confirmação, desliga o início com o Windows e fecha o programa). Se algum arquivo não puder ser apagado, ele avisa quais foram antes de fechar.
+- **Apagar todos os dados do Bob** apaga a pasta `memory/` inteira, com a memória de todos os personagens (pede confirmação, desliga o início com o Windows e fecha o programa). Se algum arquivo não puder ser apagado, ele avisa quais foram antes de fechar.
 - Você também pode apagar a pasta `memory/` manualmente, com o programa fechado.
 
 ## Fora da pasta de dados

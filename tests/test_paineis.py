@@ -8,10 +8,10 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.app import PestinhaApp  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.app import BobApp  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 
 @pytest.fixture
@@ -21,7 +21,7 @@ def pet_app(tmp_path):
     paths = Paths(root=tmp_path)
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS))           # modo teste desligado (padrão)
-    app = PestinhaApp(store, paths)
+    app = BobApp(store, paths)
     yield app
     app.floats.hidden_by_tray = True
     for w in list(app.floats.windows.values()):

@@ -1,4 +1,4 @@
-# Cartazes do protesto do Bryan. Uma frase por linha, dentro de cada seção.
+# Cartazes do protesto do Bob. Uma frase por linha, dentro de cada seção.
 # Pode editar com ele rodando: ele relê ao levantar um cartaz novo.
 
 [reclamacao]
@@ -18,7 +18,7 @@ RESPEITA O PET
 [greve]
 EM GREVE
 EM GREVE
-BRYAN EM GREVE
+BOB EM GREVE
 GREVE GERAL
 GREVE POR TEMPO INDETERMINADO
 EM GREVE ATÉ GANHAR CARINHO

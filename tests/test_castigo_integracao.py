@@ -12,9 +12,9 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 MOTORES = dict(SENTAR=30.0, CANTO=0, PAPEL=0, TRAVESSURA=0, FUGIR=0, CARTAZ=0, ANGRY=0, WATCH=0)
 
@@ -22,12 +22,12 @@ MOTORES = dict(SENTAR=30.0, CANTO=0, PAPEL=0, TRAVESSURA=0, FUGIR=0, CARTAZ=0, A
 @pytest.fixture
 def preso(monkeypatch):
     QApplication.instance() or QApplication([])
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
     paths = Paths(root=Path(tempfile.mkdtemp()))
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, travessuras=True))
-    b = app_mod.PestinhaApp(store, paths)
+    b = app_mod.BobApp(store, paths)
     b.castigo.toggle(b.bounds())
     b.castigo.plaquinha.move(0, 500)
     body = b.pet.body

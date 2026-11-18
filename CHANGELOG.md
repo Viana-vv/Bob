@@ -24,8 +24,8 @@
   ainda. Quem já tinha a opção salva continua como estava.
 - A tela de permissões só aparece na primeira vez, após o pânico ou com `--configurar`.
 - Opção de abrir ao entrar no Windows, em Configurações.
-- O executável do Windows grava em `%LOCALAPPDATA%\Pestinha`. Uma `memory/` já existente ao lado dele continua valendo.
-- Instalador para Windows com Inno Setup (`instalador/pestinha.iss`).
+- O executável do Windows grava em `%LOCALAPPDATA%\Bob`. Uma `memory/` já existente ao lado dele continua valendo.
+- Instalador para Windows com Inno Setup (`instalador/bob.iss`).
 - Mais programas reconhecidos (Cursor, Windsurf, Zed, Windows Terminal, IDEs JetBrains, Sublime, Notepad++), e
   `assets/comum/programas.json` para acrescentar outros.
 - Design, vídeo e 3D passam a contar como trabalho: Blender, Figma, Photoshop, Illustrator, After Effects,
@@ -36,7 +36,7 @@
 ## Suporte a macOS e Linux
 
 - Toda a leitura do sistema (programa em primeiro plano, tempo ocioso, janelas, tela cheia, foco e o atalho
-  de pânico) passa para `pestinha/plataforma/`, com um módulo por sistema. O resto do código não sabe
+  de pânico) passa para `bob/plataforma/`, com um módulo por sistema. O resto do código não sabe
   qual sistema está rodando.
 - O Windows continua com o mesmo comportamento: o código foi movido, não reescrito.
 - macOS: Quartz e AppKit (pyobjc), tempo ocioso pelo `ioreg` se não houver pyobjc. Atalho via pynput.
@@ -44,10 +44,10 @@
   nem o tempo ocioso, e o atalho não funciona.
 - A checagem de atividade reconhece os nomes de programa dos três sistemas (com ou sem `.exe`).
 
-## Renomeação para Pestinha
+## Renomeação para Bob
 
-- O programa e o pacote Python passam a se chamar `pestinha/` (antes `bryan/`); a classe principal é
-  `PestinhaApp`; o executável, o log e a documentação usam Pestinha.
+- O programa e o pacote Python passam a se chamar `bob/` (antes `bryan/`); a classe principal é
+  `BobApp`; o executável, o log e a documentação usam Bob.
 - Bryan continua sendo o nome do primeiro personagem: `pets/bryan.json`, `pets/bryan/`, a memória
   `memory/pets/bryan/` e os arquivos de conteúdo dele não mudaram.
 - Os comentários e textos que falavam do pet em geral passam a dizer "o pet".
@@ -83,11 +83,11 @@
   `cartazes.txt` do pet.
 
 ### Escolha do personagem
-- O programa passa a se chamar **Pestinha**; o Bryan é o primeiro personagem.
+- O programa passa a se chamar **Bob**; o Bryan é o primeiro personagem.
 - O personagem é escolhido em Configurações (vale ao reabrir). Só `pets/<pet>.json` vira opção.
 - Os textos usam o nome do personagem onde é ele que fala (apresentação, "Estou aqui", notebook, monitor
   neural, painel de protesto) e o nome do programa no resto (configurações, bandeja, pânico).
-- O log passa a ser `memory/logs/pestinha.log`; o executável, `Pestinha.exe`.
+- O log passa a ser `memory/logs/bob.log`; o executável, `Bob.exe`.
 
 ### Jorge
 - Segundo personagem: coach de finanças e IA, trambiqueiro. Mesma rede e mesmos estágios do Bryan, com

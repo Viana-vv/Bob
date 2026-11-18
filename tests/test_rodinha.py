@@ -12,9 +12,9 @@ from types import SimpleNamespace
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.body.pet import WHEEL_DIZZY_OMEGA, PetWindow  # noqa: E402
-from pestinha.body.pet_state import PetState  # noqa: E402
-from pestinha.core.physics import Body  # noqa: E402
+from bob.body.pet import WHEEL_DIZZY_OMEGA, PetWindow  # noqa: E402
+from bob.body.pet_state import PetState  # noqa: E402
+from bob.core.physics import Body  # noqa: E402
 
 
 class _Roda:

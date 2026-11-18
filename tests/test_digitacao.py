@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.body.pet import TYPING_DEGREES, digitacao_graus  # noqa: E402
+from bob.body.pet import TYPING_DEGREES, digitacao_graus  # noqa: E402
 
 
 def test_parado_quando_nao_esta_sentado():

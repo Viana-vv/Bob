@@ -1,7 +1,7 @@
 """
 Etapa 3 do multipet: escolha do personagem nas configurações e o nome certo em cada texto.
 
-O programa se chama Pestinha (config.APP_NOME); quem fala nos textos é o pet escolhido.
+O programa se chama Bob (config.APP_NOME); quem fala nos textos é o pet escolhido.
 Trocar de pet só grava a escolha: vale ao reabrir, cada um com a própria memória e conteúdo.
 """
 import ast
@@ -16,10 +16,10 @@ sys.path.insert(0, str(ROOT))
 
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.core.protesto import DEFAULT_SIGNS  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.core.protesto import DEFAULT_SIGNS  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 
 def dois_pets(tmp_path):
@@ -35,9 +35,9 @@ def dois_pets(tmp_path):
 
 def abrir(paths, monkeypatch, store=None):
     QApplication.instance() or QApplication([])
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
-    app = app_mod.PestinhaApp(store or SettingsStore(paths), paths)
+    app = app_mod.BobApp(store or SettingsStore(paths), paths)
     for timer in app.findChildren(app_mod.QTimer):
         timer.stop()
     return app
@@ -45,7 +45,7 @@ def abrir(paths, monkeypatch, store=None):
 
 def dialogo(paths, perms, first_run=False):
     QApplication.instance() or QApplication([])
-    from pestinha.ui.ui import SettingsDialog
+    from bob.ui.ui import SettingsDialog
     return SettingsDialog(perms, paths, first_run=first_run)
 
 
@@ -111,31 +111,31 @@ def test_nome_do_pet_e_do_programa_nos_lugares_certos(tmp_path, monkeypatch):
     paths = dois_pets(tmp_path)
     SettingsStore(paths).update(dict(config.DEFAULT_PERMISSIONS, pet="teste"))
     app = abrir(paths, monkeypatch)
-    assert app.tray.icon.toolTip().startswith("Pestinha · Teste")
-    from pestinha.ui.monitor import NeuralMonitor
-    from pestinha.ui.panel import StrikePanel
-    from pestinha.world.notebook import Notebook
+    assert app.tray.icon.toolTip().startswith("Bob · Teste")
+    from bob.ui.monitor import NeuralMonitor
+    from bob.ui.panel import StrikePanel
+    from bob.world.notebook import Notebook
     assert Notebook(app).windowTitle() == "Notebook do Teste"
     assert NeuralMonitor(app, (0, 0)).windowTitle().startswith("Teste ·")
     assert StrikePanel(app, (0, 0)).windowTitle().startswith("Teste ·")
     d = dialogo(paths, app.perms)
-    assert d.windowTitle() == "Pestinha" and d.active_box.text() == "Pestinha ligado"
+    assert d.windowTitle() == "Bob" and d.active_box.text() == "Bob ligado"
 
 
 def test_apresentacao_usa_o_nome_do_pet():
     QApplication.instance() or QApplication([])
-    from pestinha.ui.onboarding import Onboarding
+    from bob.ui.onboarding import Onboarding
     o = Onboarding("Teste")
     textos = [o.stack.widget(i).text() for i in range(o.stack.count())]
     assert any("eu sou o Teste" in t for t in textos)
     assert not any("Bryan" in t for t in textos)
-    assert o.windowTitle().startswith("Pestinha")
+    assert o.windowTitle().startswith("Bob")
 
 
 def test_nenhum_texto_visivel_chama_o_pet_de_bryan_no_codigo():
     """Nome de personagem vem do pets/<pet>.json; no código só em comentário, docstring ou log."""
     achados = []
-    for arquivo in list((ROOT / "pestinha").rglob("*.py")) + [ROOT / "main.py"]:
+    for arquivo in list((ROOT / "bob").rglob("*.py")) + [ROOT / "main.py"]:
         arvore = ast.parse(arquivo.read_text(encoding="utf-8"))
         docstrings = {id(n.body[0].value) for n in ast.walk(arvore)
                       if isinstance(n, (ast.Module, ast.FunctionDef, ast.ClassDef, ast.AsyncFunctionDef))

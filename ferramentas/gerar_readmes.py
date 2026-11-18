@@ -1,5 +1,5 @@
 """
-Gera pestinha/README.md e o README de cada camada a partir das docstrings dos módulos.
+Gera bob/README.md e o README de cada camada a partir das docstrings dos módulos.
 
     python ferramentas/gerar_readmes.py
 
@@ -10,7 +10,7 @@ import ast
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-PACOTE = RAIZ / "pestinha"
+PACOTE = RAIZ / "bob"
 
 CAMADAS = [
     ("core", "Cérebro e regras puras: rede neural, emoção, homeostase, memória, condicionamento, física e protesto. "
@@ -28,7 +28,7 @@ CAMADAS = [
              "festa, revolução, cantinho do castigo).", "core, sense, body, world"),
     ("ui", "Janelas de interface: tela de permissões, bandeja, passo a passo, monitor neural e painel de "
            "protesto.", "core, sense, body, world, mind"),
-    ("controle", "Mixins de `PestinhaApp`: sessão (permissões, visibilidade, pausa, pânico, salvar, sair, apagar) e "
+    ("controle", "Mixins de `BobApp`: sessão (permissões, visibilidade, pausa, pânico, salvar, sair, apagar) e "
                  "interação (cutucar, arrastar, menus, notebook).", "todas as anteriores"),
 ]
 COMPARTILHADOS = ["ajustes.py", "config.py", "paths.py", "store.py", "log.py", "mathutil.py", "settings_store.py"]
@@ -56,13 +56,13 @@ def main():
     for nome, papel, depende in CAMADAS:
         pasta = PACOTE / nome
         arquivos = sorted(p for p in pasta.glob("*.py") if p.name != "__init__.py")
-        texto = (f"# `pestinha/{nome}/`\n\n{aviso}\n{papel}\n\n**Pode importar de:** {depende} "
+        texto = (f"# `bob/{nome}/`\n\n{aviso}\n{papel}\n\n**Pode importar de:** {depende} "
                  f"(e dos módulos compartilhados). A regra é verificada por `tests/test_arquitetura.py`.\n\n"
                  f"{tabela(arquivos)}\n")
         (pasta / "README.md").write_text(texto, encoding="utf-8")
 
     mapa = "\n".join(f"| `{nome}/` | {papel} |" for nome, papel, _ in CAMADAS)
-    raiz = f"""# Pacote `pestinha`
+    raiz = f"""# Pacote `bob`
 
 {aviso}
 O código do pet, em camadas. Cada pasta tem o seu README com a lista de arquivos.
@@ -94,7 +94,7 @@ Ver [docs/ARQUITETURA.md](../docs/ARQUITETURA.md) para o fluxo completo.
         arquivos = sorted(p for p in (RAIZ / pasta).glob("*.py") if p.name != "__init__.py")
         (RAIZ / pasta / "README.md").write_text(f"# `{pasta}/` — {titulo}\n\n{aviso}\n{abertura}\n\n{tabela(arquivos)}\n",
                                                 encoding="utf-8")
-    print("READMEs gerados:", ", ".join(n for n, _p, _d in CAMADAS), "pestinha/,", ", ".join(p for p, _t, _a in OUTRAS))
+    print("READMEs gerados:", ", ".join(n for n, _p, _d in CAMADAS), "bob/,", ", ".join(p for p, _t, _a in OUTRAS))
 
 
 OUTRAS = [
@@ -118,8 +118,8 @@ python ferramentas/gerar_readmes.py
 python ferramentas/gerar_doc_rede.py
 ```
 
-- `fuzz_pestinha.py` roda o app com ações aleatórias e checa invariantes:
-  `python -B ferramentas/fuzz_pestinha.py 150 80` (rodadas, ações por rodada).
+- `fuzz_bob.py` roda o app com ações aleatórias e checa invariantes:
+  `python -B ferramentas/fuzz_bob.py 150 80` (rodadas, ações por rodada).
 - `medir_cartazes.py` confere se cada frase cabe na placa (rode no Windows, com as fontes reais)."""),
 ]
 

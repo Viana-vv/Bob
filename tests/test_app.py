@@ -18,10 +18,10 @@ from PySide6.QtCore import QPointF, Qt  # noqa: E402
 from PySide6.QtGui import QMouseEvent  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.app import PestinhaApp  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.app import BobApp  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 from main import apagar_memoria  # noqa: E402
 
 
@@ -37,7 +37,7 @@ def buddy(qapp, tmp_path):
     paths = Paths(root=tmp_path)
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, travessuras=True))
-    app = PestinhaApp(store, paths)
+    app = BobApp(store, paths)
     yield app
     app.floats.hidden_by_tray = True
     for w in list(app.floats.windows.values()):
@@ -81,7 +81,7 @@ def test_apagar_memoria_informa_falha_sem_fingir_sucesso(tmp_path, monkeypatch):
         (avisar,) = callback.values()      # onexc (3.12+) ou onerror (3.11)
         avisar(None, paths.memory / "bloqueado.json", None)
 
-    monkeypatch.setattr("pestinha.store.shutil.rmtree", falhar)
+    monkeypatch.setattr("bob.store.shutil.rmtree", falhar)
     sucesso, falhas = apagar_memoria(paths)
 
     assert sucesso is False
@@ -112,7 +112,7 @@ def test_painel_arrastado_salva_a_posicao(buddy, tmp_path):
     w.mouseReleaseEvent(ev(QMouseEvent.MouseButtonRelease, end))
     saved = buddy.paths.panels
     assert saved.exists()
-    from pestinha.world.arrastavel import load_positions  # noqa: E402
+    from bob.world.arrastavel import load_positions  # noqa: E402
     assert load_positions(saved)["greve"] == [w.x(), w.y()]
 
 

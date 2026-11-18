@@ -25,10 +25,10 @@ jobs:
         shell: bash
         run: |
           EXTRA=""
-          if [ "$RUNNER_OS" = "Windows" ]; then EXTRA="--windowed --hidden-import win32timezone"; fi
+          if [ "$RUNNER_OS" = "Windows" ]; then EXTRA="--windowed --hidden-import win32timezone --version-file $PWD/instalador/bob-version.txt"; fi
           # --specpath build: caminho absoluto, senão o PyInstaller procura o script do KWin dentro de build/
-          if [ "$RUNNER_OS" = "Linux" ]; then EXTRA="--add-data $PWD/pestinha/plataforma/kwin_ponte.js:pestinha/plataforma"; fi
-          python -m PyInstaller --noconfirm --onefile $EXTRA --name Pestinha \
+          if [ "$RUNNER_OS" = "Linux" ]; then EXTRA="--add-data $PWD/bob/plataforma/kwin_ponte.js:bob/plataforma"; fi
+          python -m PyInstaller --noconfirm --onefile $EXTRA --name Bob \
             --distpath dist --workpath build/work --specpath build main.py
       - name: Montar a pasta de entrega (executável + assets + pets)
         shell: bash
@@ -37,9 +37,9 @@ jobs:
           SISTEMA="$(printf '%s' "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')"
           PASTA="executáveis/$SISTEMA"
           mkdir -p "$PASTA"
-          cp -R dist/Pestinha* "$PASTA/"
+          cp -R dist/Bob* "$PASTA/"
           cp -R assets pets "$PASTA/"
       - uses: actions/upload-artifact@v4
         with:
-          name: pestinha-${{ runner.os }}
+          name: bob-${{ runner.os }}
           path: executáveis/

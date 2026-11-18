@@ -12,16 +12,16 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.mind.castigo_ctl import CARTAZ_MIN_S  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.mind.castigo_ctl import CARTAZ_MIN_S  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 
 @pytest.fixture
 def mundo(monkeypatch):
     qt = QApplication.instance() or QApplication([])
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
     monkeypatch.setattr(app_mod.senses, "list_windows", lambda exclude, *args, **kwargs: [])
     monkeypatch.setattr(app_mod.senses, "get_active_app", lambda: "explorer.exe")
@@ -32,7 +32,7 @@ def mundo(monkeypatch):
     paths = Paths(root=Path(tempfile.mkdtemp()))
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS))
-    b = app_mod.PestinhaApp(store, paths)
+    b = app_mod.BobApp(store, paths)
     for timer in b.findChildren(app_mod.QTimer):
         timer.stop()
     b.castigo.toggle(b.bounds())

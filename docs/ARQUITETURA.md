@@ -1,7 +1,7 @@
-# Arquitetura do Pestinha
+# Arquitetura do Bob
 
 Este documento explica como as partes conversam. Para o que cada arquivo faz, veja o README de cada
-pasta em `pestinha/`; para os detalhes da rede, [REDE_NEURAL.md](REDE_NEURAL.md).
+pasta em `bob/`; para os detalhes da rede, [REDE_NEURAL.md](REDE_NEURAL.md).
 
 ## Visão geral
 
@@ -47,12 +47,12 @@ Cada camada só importa das que estão à esquerda dela, além dos módulos comp
 | `world/` | Objetos na tela e a janela arrastável base | sim | não |
 | `mind/` | Controladores: ligam as decisões da rede à cena | sim | não |
 | `ui/` | Telas: permissões, bandeja, passo a passo, monitor, painel de protesto | sim | não (usa `plataforma/`) |
-| `controle/` | Mixins de `PestinhaApp`: sessão e interação | sim | não |
+| `controle/` | Mixins de `BobApp`: sessão e interação | sim | não |
 | `app.py` | Composição e os três ciclos | sim | sim |
 
 ## Os ciclos
 
-Tudo roda na thread do Qt, em relógios (`QTimer`) criados em `PestinhaApp.__init__`:
+Tudo roda na thread do Qt, em relógios (`QTimer`) criados em `BobApp.__init__`:
 
 | A cada | Método | O que faz |
 |---|---|---|
@@ -108,7 +108,7 @@ outro pet. Os cartazes do cantinho do castigo são as seções `[castigo]` e `[x
 ## Persistência
 
 Todos os arquivos ficam na pasta de dados (veja [PRIVACIDADE.md](../PRIVACIDADE.md)): `memory/` ao lado do
-programa ou, no executável do Windows sem uma `memory/` já existente, `%LOCALAPPDATA%\Pestinha`
+programa ou, no executável do Windows sem uma `memory/` já existente, `%LOCALAPPDATA%\Bob`
 (`paths.pasta_de_dados`). Os caminhos saem só de
 `paths.py`: `Paths` tem o que é global (permissões, rotina, painéis, log) e `Paths.pet(id)` devolve um
 `PetPaths` com os oito arquivos de estado de um personagem, em `memory/pets/<id>/`. O id passa por
@@ -132,7 +132,7 @@ Toda leitura e escrita passa por `store.py`:
 ## Como acrescentar um comportamento
 
 1. **Sinal novo para a rede:** acrescente o canal em `SENSORY_SPEC` e as conexões em `CONNECTIONS`
-   (`core/nervous_system.py`), e alimente o valor em `PestinhaApp.think`.
+   (`core/nervous_system.py`), e alimente o valor em `BobApp.think`.
 2. **Decisão nova:** crie um motor de decisão em `MOTOR_SPEC`, inclua em `DECISION_MOTORS` e leia a
    taxa no controlador (`mind/`), com o limiar em `ajustes.py`.
 3. **Objeto novo na tela:** em `world/`, usando `overlay_flags()` e `set_no_activate()` para não

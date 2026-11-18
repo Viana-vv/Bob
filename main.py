@@ -1,5 +1,5 @@
 """
-PESTINHA - ponto de entrada.
+BOB - ponto de entrada.
 
 Rodar:
     python main.py              passo a passo e permissões na primeira vez; depois, abre direto
@@ -23,13 +23,13 @@ if os.environ.get("XDG_SESSION_TYPE") == "wayland":
 from PySide6.QtCore import QDir, QLockFile, QTimer
 from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
 
-from pestinha import config, store
-from pestinha import log as log_module
-from pestinha.paths import Paths
-from pestinha.settings_store import SettingsStore
-from pestinha.app import PestinhaApp
-from pestinha.ui.onboarding import Onboarding
-from pestinha.ui.ui import SettingsDialog, face_icon
+from bob import config, store
+from bob import log as log_module
+from bob.paths import Paths
+from bob.settings_store import SettingsStore
+from bob.app import BobApp
+from bob.ui.onboarding import Onboarding
+from bob.ui.ui import SettingsDialog, face_icon
 
 
 def apagar_memoria(paths):
@@ -45,7 +45,7 @@ def travar_instancia(paths):
     Quem recebe precisa guardar a trava enquanto o programa roda.
     """
     marca = hashlib.sha256(str(paths.memory).encode("utf-8")).hexdigest()[:16]
-    trava = QLockFile(f"{QDir.tempPath()}/pestinha-{marca}.lock")
+    trava = QLockFile(f"{QDir.tempPath()}/bob-{marca}.lock")
     trava.setStaleLockTime(0)       # enquanto a cópia estiver viva a trava vale; se ela caiu, a trava é recuperada
     return trava if trava.tryLock(0) else None
 
@@ -60,7 +60,7 @@ def deve_mostrar_tela(args, perms, primeira_vez):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Pestinha")
+    parser = argparse.ArgumentParser(description="Bob")
     parser.add_argument("--direto", action="store_true", help="pula a tela de permissões")
     parser.add_argument("--configurar", action="store_true", help="mostra a tela de permissões")
     parser.add_argument("--sair-em", type=float, default=0.0, help="fecha sozinho após N segundos (teste)")
@@ -116,7 +116,7 @@ def main():
             return 0
         store.update({"configurado": True})         # grava já: a próxima vez abre direto
 
-    pet_app = PestinhaApp(store, paths)
+    pet_app = BobApp(store, paths)
     if args.sair_em > 0:
         QTimer.singleShot(int(args.sair_em * 1000), pet_app.quit)
     return app.exec()

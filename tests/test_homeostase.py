@@ -1,6 +1,6 @@
 """Homeostase: trabalhar é estímulo, então o tédio não sobe enquanto ele programa."""
 
-from pestinha.core.homeostasis import BORED_BELOW, Drives
+from bob.core.homeostasis import BORED_BELOW, Drives
 
 PROF = {"sleep_recover": 300.0, "energy_span": 600.0, "stim_decay": 120.0, "contact_span": 900.0}
 

@@ -19,9 +19,9 @@ def _encerrar_apps_e_janelas():
     antes = set(qt.topLevelWidgets()) if qt else set()
     yield
     from PySide6.QtCore import QTimer
-    from pestinha.app import PestinhaApp
+    from bob.app import BobApp
     for obj in gc.get_objects():
-        if isinstance(obj, PestinhaApp):
+        if isinstance(obj, BobApp):
             for timer in obj.findChildren(QTimer):
                 timer.stop()
     qt = QApplication.instance()

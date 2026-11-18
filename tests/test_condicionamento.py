@@ -12,8 +12,8 @@ sys.path.insert(0, str(ROOT))
 
 import numpy as np  # noqa: E402
 
-from pestinha.core.conditioning import Conditioning  # noqa: E402
-from pestinha.core.nervous_system import LIFBrain  # noqa: E402
+from bob.core.conditioning import Conditioning  # noqa: E402
+from bob.core.nervous_system import LIFBrain  # noqa: E402
 
 
 def repeat(c, n, with_outcome, start=0.0, gap=3.0):

@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT))
 
 import pytest  # noqa: E402
 
-from pestinha.core.emotion import ANCHORS, EYE_SHAPES, shape_from_affect  # noqa: E402
+from bob.core.emotion import ANCHORS, EYE_SHAPES, shape_from_affect  # noqa: E402
 
 
 @pytest.mark.parametrize("emocao", list(ANCHORS))

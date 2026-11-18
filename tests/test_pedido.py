@@ -8,9 +8,9 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha.ajustes import LIMIAR_SENTAR_HZ, PEDIDO_VALIDADE_S  # noqa: E402
-from pestinha.mind.mesa import MesaController  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
+from bob.ajustes import LIMIAR_SENTAR_HZ, PEDIDO_VALIDADE_S  # noqa: E402
+from bob.mind.mesa import MesaController  # noqa: E402
+from bob.paths import Paths  # noqa: E402
 
 
 class App:

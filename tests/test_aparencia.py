@@ -1,7 +1,7 @@
 """
 Etapa 5 do multipet: cores e acessórios por pet, numa camada por cima do rosto.
 
-O pet padrão, o Bryan (sem "aparencia" no .json), fica idêntico ao original. Valor inválido nunca derruba o app:
+O pet padrão, o Bryan (sem "aparencia" no .json), usa o visual preto e branco do Bob. Valor inválido nunca derruba o app:
 cor fora de #rrggbb e acessório desconhecido ficam com o padrão.
 """
 import sys
@@ -15,14 +15,14 @@ sys.path.insert(0, str(ROOT))
 from PySide6.QtGui import QColor, QImage, QPainter  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.body.desenho_rosto import (  # noqa: E402
+from bob import config  # noqa: E402
+from bob.body.desenho_rosto import (  # noqa: E402
     BODY_H, EYE, FRAME, PADRAO, SCREEN, SHELL, SHINE, aparencia_de, draw_face,
 )
-from pestinha.body.pet import CX, CY, WIN  # noqa: E402
-from pestinha.core.emotion import EYE_SHAPES  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob.body.pet import CX, CY, WIN  # noqa: E402
+from bob.core.emotion import EYE_SHAPES  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 PATHS = Paths(root=ROOT)
 
@@ -52,7 +52,7 @@ def pixels_de(img, cor, tolerancia=40):
     return achados
 
 
-def test_bryan_continua_com_o_visual_original():
+def test_bryan_usa_o_visual_padrao_do_bob():
     assert "aparencia" not in config.load_pet(PATHS, "bryan")
     a = aparencia_de(config.load_pet(PATHS, "bryan").get("aparencia"))
     assert (a.moldura, a.casca, a.tela, a.olho, a.brilho) == (FRAME, SHELL, SCREEN, EYE, SHINE)
@@ -71,8 +71,8 @@ def test_valor_invalido_fica_com_o_padrao():
         assert aparencia_de(ruim).acessorios == ()
 
 
-def test_jorge_desenha_toda_expressao_com_gravata():
-    a = aparencia_de(config.load_pet(PATHS, "jorge")["aparencia"])
+def test_acessorio_desenha_toda_expressao_com_gravata():
+    a = aparencia_de({"acessorios": {"gravata": "#b3261e"}})
     assert [n for n, _c in a.acessorios] == ["gravata"]                    # sem óculos
     casos = [(e, 1.0, False) for e in EYE_SHAPES] + [("observando", 0.08, False), ("feliz", 1.0, True)]
     gravata = dict(a.acessorios)["gravata"]
@@ -88,13 +88,13 @@ def test_jorge_desenha_toda_expressao_com_gravata():
 def test_aparencia_chega_na_janela_do_pet(tmp_path, monkeypatch):
     QApplication.instance() or QApplication([])
     import shutil
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     shutil.copytree(PATHS.pets, tmp_path / "pets")
     paths = Paths(root=tmp_path)
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
-    for pet, tem_acessorio in (("jorge", True), ("bryan", False)):
+    for pet, tem_acessorio in (("bryan", False),):
         SettingsStore(paths).update(dict(config.DEFAULT_PERMISSIONS, pet=pet))
-        app = app_mod.PestinhaApp(SettingsStore(paths), paths)
+        app = app_mod.BobApp(SettingsStore(paths), paths)
         for timer in app.findChildren(app_mod.QTimer):
             timer.stop()
         assert bool(app.pet.aparencia.acessorios) is tem_acessorio

@@ -8,9 +8,9 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha.body.pet_state import PetState  # noqa: E402
-from pestinha.mind.castigo_ctl import CastigoController  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
+from bob.body.pet_state import PetState  # noqa: E402
+from bob.mind.castigo_ctl import CastigoController  # noqa: E402
+from bob.paths import Paths  # noqa: E402
 
 
 class Corpo:

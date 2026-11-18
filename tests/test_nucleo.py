@@ -15,10 +15,10 @@ sys.path.insert(0, str(ROOT))
 import numpy as np  # noqa: E402
 import pytest  # noqa: E402
 
-from pestinha.core.emotion import EmotionState, classify  # noqa: E402
-from pestinha.core.homeostasis import Drives  # noqa: E402
-from pestinha.core.motor import MotorTone  # noqa: E402
-from pestinha.core.nervous_system import LIFBrain as _LIFBrain  # noqa: E402
+from bob.core.emotion import EmotionState, classify  # noqa: E402
+from bob.core.homeostasis import Drives  # noqa: E402
+from bob.core.motor import MotorTone  # noqa: E402
+from bob.core.nervous_system import LIFBrain as _LIFBrain  # noqa: E402
 
 
 def LIFBrain(seed=7, temperament=None):
@@ -26,9 +26,9 @@ def LIFBrain(seed=7, temperament=None):
     brain = _LIFBrain(seed=seed, temperament=temperament)
     brain.rng = np.random.default_rng(123)
     return brain
-from pestinha.core.physics import Body  # noqa: E402
-from pestinha.body.behavior import Behavior, CROSS_SCREEN_SPEED  # noqa: E402
-from pestinha.body.pet_state import PetState  # noqa: E402
+from bob.core.physics import Body  # noqa: E402
+from bob.body.behavior import Behavior, CROSS_SCREEN_SPEED  # noqa: E402
+from bob.body.pet_state import PetState  # noqa: E402
 
 PROFILE = {
     "emotion_tau": 1.5, "emotion_dwell": 0.6,
@@ -210,7 +210,7 @@ def test_passeio_pode_escolher_destino_no_monitor_ao_lado(monkeypatch):
     behavior = Behavior(body, state, None)
     behavior.emotion = "feliz"
     behavior.screen_areas = [(0, 0, 1000, 800), (1000, 0, 2000, 800)]
-    monkeypatch.setattr("pestinha.body.behavior.random.uniform", lambda _a, b: b)
+    monkeypatch.setattr("bob.body.behavior.random.uniform", lambda _a, b: b)
 
     assert behavior._pick_target((0, 0), 0, 1000) > 1000
 
@@ -221,9 +221,9 @@ def test_passeio_decide_visitar_monitor_vizinho(monkeypatch):
     behavior = Behavior(body, state, None)
     behavior.emotion = "feliz"
     behavior.screen_areas = [(0, 0, 1000, 800), (1000, 0, 2000, 800)]
-    monkeypatch.setattr("pestinha.body.behavior.random.random", lambda: 0.0)
-    monkeypatch.setattr("pestinha.body.behavior.random.choice", lambda itens: itens[0])
-    monkeypatch.setattr("pestinha.body.behavior.random.uniform", lambda a, b: (a + b) / 2)
+    monkeypatch.setattr("bob.body.behavior.random.random", lambda: 0.0)
+    monkeypatch.setattr("bob.body.behavior.random.choice", lambda itens: itens[0])
+    monkeypatch.setattr("bob.body.behavior.random.uniform", lambda a, b: (a + b) / 2)
 
     assert behavior._pick_target((0, 0), 0, 1000) == 1500
 
@@ -240,7 +240,7 @@ def test_travessia_nao_hesita_nem_troca_de_destino(monkeypatch):
     behavior.next_glance = 1e9
     velocidades = []
     monkeypatch.setattr(behavior, "_slide_to", lambda alvo, velocidade: velocidades.append((alvo, velocidade)))
-    monkeypatch.setattr("pestinha.body.behavior.random.random", lambda: 0.0)
+    monkeypatch.setattr("bob.body.behavior.random.random", lambda: 0.0)
 
     behavior.tick(1.0, 100.0, (0, 0), (0, 0, 1000, 800), {})
 

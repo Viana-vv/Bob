@@ -3,7 +3,7 @@ Gera docs/REDE_NEURAL.md a partir do código (canais, interneurônios, motores, 
 
     python ferramentas/gerar_doc_rede.py
 
-Rode de novo sempre que mexer em pestinha/core/nervous_system.py ou nos limiares de pestinha/ajustes.py.
+Rode de novo sempre que mexer em bob/core/nervous_system.py ou nos limiares de bob/ajustes.py.
 """
 import re
 import sys
@@ -14,11 +14,11 @@ sys.path.insert(0, str(RAIZ))
 
 import numpy as np  # noqa: E402
 
-from pestinha import ajustes  # noqa: E402
-from pestinha.core import nervous_system as ns  # noqa: E402
-from pestinha.ui.rotulos import CANAIS_SENSORIAIS, INTERNEURONIOS, MOTORES  # noqa: E402
+from bob import ajustes  # noqa: E402
+from bob.core import nervous_system as ns  # noqa: E402
+from bob.ui.rotulos import CANAIS_SENSORIAIS, INTERNEURONIOS, MOTORES  # noqa: E402
 
-FONTE = (RAIZ / "pestinha" / "core" / "nervous_system.py").read_text(encoding="utf-8")
+FONTE = (RAIZ / "bob" / "core" / "nervous_system.py").read_text(encoding="utf-8")
 
 
 def comentarios_sensoriais():
@@ -95,7 +95,7 @@ def main():
         "",
         "## Decisões pela rede",
         "",
-        "Os motores de decisão viram comportamento assim (valores em `pestinha/ajustes.py`):",
+        "Os motores de decisão viram comportamento assim (valores em `bob/ajustes.py`):",
         "",
         "| Decisão | Regra |",
         "|---|---|",

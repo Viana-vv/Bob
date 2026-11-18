@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha.world.fireworks import Fireworks  # noqa: E402
+from bob.world.fireworks import Fireworks  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -33,7 +33,7 @@ def test_fogo_sobe_e_explode(qapp):
 
 
 def test_fogo_so_quando_euforia_cheia_e_feliz(tmp_path):
-    from pestinha.mind.festa import FestaController
+    from bob.mind.festa import FestaController
 
     class Corpo:
         x, y = 100.0, 100.0

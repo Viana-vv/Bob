@@ -18,9 +18,9 @@ sys.path.insert(0, str(ROOT))
 import pytest  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config, migracao  # noqa: E402
-from pestinha.paths import Paths, pet_id_valido  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config, migracao  # noqa: E402
+from bob.paths import Paths, pet_id_valido  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 ARQUIVOS = {
     "episodes.jsonl": b'{"contexto": "IDLE|feliz", "acao": "meme", "valencia": 0.5}\n'
@@ -196,12 +196,12 @@ def test_id_de_pet_que_vira_pasta_e_validado(tmp_path):
 
 def criar_app(tmp_path, monkeypatch, pet="bryan"):
     QApplication.instance() or QApplication([])
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
     paths = Paths(root=tmp_path)
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, pet=pet))
-    app = app_mod.PestinhaApp(store, paths)
+    app = app_mod.BobApp(store, paths)
     for timer in app.findChildren(app_mod.QTimer):
         timer.stop()
     return app
@@ -295,7 +295,7 @@ def test_pets_nao_compartilham_memoria(tmp_path, monkeypatch):
 
 def test_nenhum_caminho_de_memoria_montado_fora_de_paths():
     fora = []
-    for arquivo in (ROOT / "pestinha").rglob("*.py"):
+    for arquivo in (ROOT / "bob").rglob("*.py"):
         if arquivo.name in ("paths.py", "migracao.py"):
             continue
         for n, linha in enumerate(arquivo.read_text(encoding="utf-8").splitlines(), 1):

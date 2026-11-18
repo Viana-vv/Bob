@@ -10,15 +10,15 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import main as main_mod  # noqa: E402
-from pestinha import config, log as log_module, store  # noqa: E402
-from pestinha.app import PestinhaApp  # noqa: E402
-from pestinha.paths import Paths, pasta_de_dados  # noqa: E402
-from pestinha.sense import senses  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config, log as log_module, store  # noqa: E402
+from bob.app import BobApp  # noqa: E402
+from bob.paths import Paths, pasta_de_dados  # noqa: E402
+from bob.sense import senses  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 windows = None
 if sys.platform == "win32":
-    from pestinha.plataforma import windows  # noqa: E402
+    from bob.plataforma import windows  # noqa: E402
 
 so_windows = pytest.mark.skipif(sys.platform != "win32", reason="Requer backend Windows")
 
@@ -29,7 +29,7 @@ def pet(tmp_path):
     paths = Paths(root=tmp_path)
     settings = SettingsStore(paths)
     settings.update(dict(config.DEFAULT_PERMISSIONS))
-    app = PestinhaApp(settings, paths)
+    app = BobApp(settings, paths)
     yield app
     app.tray.icon.hide()
 
@@ -89,7 +89,7 @@ def test_pousa_em_janela_de_qualquer_monitor(pet, monkeypatch):
 
 def test_executavel_grava_em_localappdata_sem_memoria_ao_lado(tmp_path):
     local = {"LOCALAPPDATA": str(tmp_path / "local")}
-    assert pasta_de_dados(tmp_path, True, "win32", local) == tmp_path / "local" / "Pestinha"
+    assert pasta_de_dados(tmp_path, True, "win32", local) == tmp_path / "local" / "Bob"
     (tmp_path / "memory").mkdir()                                   # quem já usa o .exe não perde a memória
     assert pasta_de_dados(tmp_path, True, "win32", local) == tmp_path / "memory"
 
@@ -171,7 +171,7 @@ def test_inicio_com_windows_liga_e_desliga(monkeypatch):
     assert windows.definir_inicio_com_sistema(True) is True
     assert windows.inicia_com_sistema() is True
     assert registro[windows.VALOR_INICIO].endswith("--direto")
-    registro[windows.VALOR_INICIO] = '"C:\\pasta antiga\\Pestinha.exe" --direto'
+    registro[windows.VALOR_INICIO] = '"C:\\pasta antiga\\Bob.exe" --direto'
     assert windows.inicia_com_sistema() is False                    # o programa mudou de lugar
     assert windows.definir_inicio_com_sistema(False) is True
     assert windows.definir_inicio_com_sistema(False) is True        # já desligado não é erro

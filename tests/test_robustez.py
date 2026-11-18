@@ -5,9 +5,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha import config  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.store import read_json, write_json  # noqa: E402
+from bob import config  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.store import read_json, write_json  # noqa: E402
 
 
 def test_arquivo_corrompido_vira_copia_e_volta_padrao(tmp_path):
@@ -31,7 +31,7 @@ def test_checagem_de_assets_avisa_o_que_falta(tmp_path):
 
 
 def test_log_grava_em_arquivo(tmp_path):
-    from pestinha import log as log_module
+    from bob import log as log_module
     f = tmp_path / "buddy.log"
     log_module.setup(f)
     log_module.log("mensagem de teste")

@@ -1,7 +1,7 @@
 # Rodada de 30 bugs (01/11/2026)
 
 Como foram encontrados: um fuzzer que roda o app inteiro com relógio virtual, aplica ações
-aleatórias e checa 29 invariantes depois de cada passo (`ferramentas/fuzz_pestinha.py`); a revisão
+aleatórias e checa 29 invariantes depois de cada passo (`ferramentas/fuzz_bob.py`); a revisão
 de código dos módulos; e reproduções dirigidas (`(removido do repositório)`). Cada bug tem
 um teste em `tests/test_30_bugs.py`.
 

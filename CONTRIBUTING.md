@@ -1,11 +1,11 @@
-# Contribuindo com o Pestinha
+# Contribuindo com o Bob
 
 Obrigado pelo interesse! Este guia explica como preparar o ambiente, como o código está organizado e o
 que conferir antes de abrir um pull request.
 
 ## Ambiente
 
-- Windows 10 ou 11, macOS, Linux com X11 ou KDE Plasma 6 com Wayland. Toda a leitura do sistema fica em `pestinha/plataforma/` (um módulo por sistema).
+- Windows 10 ou 11, macOS, Linux com X11 ou KDE Plasma 6 com Wayland. Toda a leitura do sistema fica em `bob/plataforma/` (um módulo por sistema).
 - Python 3.11.
 
 ```bash
@@ -25,20 +25,20 @@ de protesto. O terminal mostra cada decisão (`[notebook]`, `[castigo]`, `[escol
 
 ```bash
 python -m pytest -q
-python -m pyflakes pestinha tests main.py ferramentas conftest.py
+python -m pyflakes bob tests main.py ferramentas conftest.py
 ```
 
 - Os testes não abrem janelas: o `conftest.py` da raiz liga o Qt em modo offscreen e isola cada teste.
 - Tudo é gravado em pastas temporárias; a sua `memory/` nunca é tocada.
 - Testes que montam o app inteiro usam relógio virtual (veja `tests/test_castigo_real.py`).
-- Para procurar bugs de sequência, rode o fuzzer: `python -B ferramentas/fuzz_pestinha.py 150 80`.
+- Para procurar bugs de sequência, rode o fuzzer: `python -B ferramentas/fuzz_bob.py 150 80`.
 
 O GitHub Actions roda pyflakes e pytest em Windows, macOS e Linux a cada push e pull request
 (`.github/workflows/testes.yml`).
 
 ## Organização
 
-O código fica em `pestinha/`, em camadas que só importam das que estão abaixo
+O código fica em `bob/`, em camadas que só importam das que estão abaixo
 (`core < sense < body < world < mind < ui < controle < app.py`). A regra é verificada por
 `tests/test_arquitetura.py`. Leia [docs/ARQUITETURA.md](docs/ARQUITETURA.md) antes de mudanças grandes;
 a seção "Como acrescentar um comportamento" tem o passo a passo.
@@ -47,8 +47,8 @@ a seção "Como acrescentar um comportamento" tem o passo a passo.
 
 - **Português** em código, comentários, mensagens e documentação. Os nomes internos da rede (`FOCUS`,
   `BOREDOM`...) ficam em inglês porque são sinais.
-- **Números de comportamento** vão em `pestinha/ajustes.py`, com o intervalo válido em `_LIMITES`.
-- **Arquivos** são lidos e gravados só por `pestinha/store.py`; caminhos só por `pestinha/paths.py`.
+- **Números de comportamento** vão em `bob/ajustes.py`, com o intervalo válido em `_LIMITES`.
+- **Arquivos** são lidos e gravados só por `bob/store.py`; caminhos só por `bob/paths.py`.
 - **Janelas** usam `overlay_flags()` e `set_no_activate()` (nunca roubam o foco).
 - **Estado salvo** precisa de validação ao carregar e de um teste com dados inválidos.
 - **Comentários** explicam o porquê, não repetem o código.
@@ -67,7 +67,7 @@ a seção "Como acrescentar um comportamento" tem o passo a passo.
 ## Antes do pull request
 
 - [ ] `python -m pytest -q` passa.
-- [ ] `python -m pyflakes pestinha tests main.py ferramentas conftest.py` não aponta nada.
+- [ ] `python -m pyflakes bob tests main.py ferramentas conftest.py` não aponta nada.
 - [ ] Há teste para o comportamento novo ou para o bug corrigido.
 - [ ] Se criou ou mudou módulos, rodou `python ferramentas/gerar_readmes.py`.
 - [ ] Se mexeu na rede ou nos limiares, rodou `python ferramentas/gerar_doc_rede.py`.

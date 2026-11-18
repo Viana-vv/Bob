@@ -16,15 +16,15 @@ import pytest  # noqa: E402
 from PySide6.QtCore import Qt  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from pestinha import config  # noqa: E402
-from pestinha.paths import Paths  # noqa: E402
-from pestinha.settings_store import SettingsStore  # noqa: E402
+from bob import config  # noqa: E402
+from bob.paths import Paths  # noqa: E402
+from bob.settings_store import SettingsStore  # noqa: E402
 
 
 @pytest.fixture
 def mundo(monkeypatch):
     qt = QApplication.instance() or QApplication([])
-    import pestinha.app as app_mod
+    import bob.app as app_mod
     monkeypatch.setattr(app_mod, "PanicHotkey", lambda: SimpleNamespace(ok=True, pressed=Mock()))
     monkeypatch.setattr(app_mod.senses, "list_windows", lambda exclude, escala=1.0: [])
     monkeypatch.setattr(app_mod.senses, "get_active_app", lambda: "explorer.exe")
@@ -36,7 +36,7 @@ def mundo(monkeypatch):
     paths = Paths(root=Path(tempfile.mkdtemp()))
     store = SettingsStore(paths)
     store.update(dict(config.DEFAULT_PERMISSIONS, travessuras=True))
-    b = app_mod.PestinhaApp(store, paths)
+    b = app_mod.BobApp(store, paths)
     for timer in b.findChildren(app_mod.QTimer):
         timer.stop()
 
@@ -141,7 +141,7 @@ def test_08_travessura_forcada_vence(mundo):
 
 # 09
 def test_09_queda_alta_ainda_ensina_a_placa():
-    from pestinha.core.conditioning import Conditioning
+    from bob.core.conditioning import Conditioning
     c = Conditioning(rate=0.5)
     c.set_cue("PLACA", True, 0.0)
     c.set_cue("PLACA", False, 1.0)
@@ -163,7 +163,7 @@ def test_10_apagar_dados_e_rodar_um_quadro_nao_recria_pasta(mundo):
 
 # 11
 def test_11_painel_so_solta_com_o_botao_que_arrastou(mundo):
-    from pestinha.world.arrastavel import FloatingWidget
+    from bob.world.arrastavel import FloatingWidget
     w = FloatingWidget(mundo.b, "teste", "t", (100, 100), (50, 50), (10, 10))
     w._grab, w._botao = object(), Qt.LeftButton
     w.mouseReleaseEvent(SimpleNamespace(button=lambda: Qt.RightButton))
@@ -172,23 +172,23 @@ def test_11_painel_so_solta_com_o_botao_que_arrastou(mundo):
 
 # 12
 def test_12_monitor_tem_rotulo_em_portugues_para_tudo():
-    from pestinha.core.nervous_system import MOTOR_SPEC, SENSORY_SPEC
-    from pestinha.ui.rotulos import CANAIS_SENSORIAIS, MOTORES
+    from bob.core.nervous_system import MOTOR_SPEC, SENSORY_SPEC
+    from bob.ui.rotulos import CANAIS_SENSORIAIS, MOTORES
     assert all(c in CANAIS_SENSORIAIS for c in SENSORY_SPEC)
     assert all(m[0] in MOTORES for m in MOTOR_SPEC)
 
 
 # 13
 def test_13_foco_maximo_tem_uma_fonte_so():
-    import pestinha.ajustes as aj
-    import pestinha.mind.mesa as mesa
+    import bob.ajustes as aj
+    import bob.mind.mesa as mesa
     assert mesa.FOCO_MAXIMO_HZ is aj.FOCO_MAXIMO_HZ
 
 
 # 14
 def test_14_ajustes_sem_constante_morta():
-    texto = (ROOT / "pestinha" / "ajustes.py").read_text(encoding="utf-8")
-    codigo = "".join(p.read_text(encoding="utf-8") for p in (ROOT / "pestinha").rglob("*.py") if p.name != "ajustes.py")
+    texto = (ROOT / "bob" / "ajustes.py").read_text(encoding="utf-8")
+    codigo = "".join(p.read_text(encoding="utf-8") for p in (ROOT / "bob").rglob("*.py") if p.name != "ajustes.py")
     mortas = [n for n in re.findall(r"^([A-Z][A-Z_]*) = ", texto, flags=re.M) if n not in codigo]
     assert mortas == []
 
@@ -239,7 +239,7 @@ def test_22_imagem_ilegivel_nao_vira_travessura(mundo, tmp_path):
 def test_23_tela_inicial_grava_a_escolha(monkeypatch, tmp_path):
     QApplication.instance() or QApplication([])
     import main as main_mod
-    from pestinha.ui import ui as ui_mod
+    from bob.ui import ui as ui_mod
     paths = Paths(root=tmp_path)
     escolha = not config.DEFAULT_PERMISSIONS["fogos"]
 
@@ -250,7 +250,7 @@ def test_23_tela_inicial_grava_a_escolha(monkeypatch, tmp_path):
 
     monkeypatch.setattr(main_mod, "SettingsDialog", Dialogo)
     monkeypatch.setattr(main_mod, "Paths", lambda: paths)
-    monkeypatch.setattr(main_mod, "PestinhaApp", lambda store, p: None)
+    monkeypatch.setattr(main_mod, "BobApp", lambda store, p: None)
     monkeypatch.setattr(main_mod, "Onboarding", lambda nome: SimpleNamespace(exec=lambda: 1))
     monkeypatch.setattr(main_mod, "QApplication", lambda argv: SimpleNamespace(
         setQuitOnLastWindowClosed=lambda v: None, setWindowIcon=lambda i: None, exec=lambda: 0,
@@ -263,7 +263,7 @@ def test_23_tela_inicial_grava_a_escolha(monkeypatch, tmp_path):
 def test_24_tela_inicial_apagar_tudo_funciona(monkeypatch, tmp_path):
     QApplication.instance() or QApplication([])
     import main as main_mod
-    from pestinha.ui import ui as ui_mod
+    from bob.ui import ui as ui_mod
     paths = Paths(root=tmp_path)
     paths.memory.mkdir(parents=True)
     (paths.memory / "algo.json").write_text("{}", encoding="utf-8")
@@ -287,13 +287,13 @@ def test_24_tela_inicial_apagar_tudo_funciona(monkeypatch, tmp_path):
 # 25
 def test_25_interface_usa_o_nome_bryan():
     for arquivo in ("app.py", "ui/ui.py", "ui/onboarding.py", "ui/monitor.py", "ui/panel.py"):
-        texto = (ROOT / "pestinha" / arquivo).read_text(encoding="utf-8")
-        assert not re.search(r'"Pestinha', texto), arquivo
+        texto = (ROOT / "bob" / arquivo).read_text(encoding="utf-8")
+        assert not re.search(r'"Bob', texto), arquivo
 
 
 # 26
 def test_26_resumo_conta_memes_de_trabalho_e_bilhetes_tristes(mundo):
-    from pestinha.ui.ui import SettingsDialog
+    from bob.ui.ui import SettingsDialog
     b = mundo.b
     b.conteudo.memes_trabalho.mkdir(parents=True, exist_ok=True)
     (b.conteudo.memes_trabalho / "x.png").write_bytes(b"")

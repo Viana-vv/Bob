@@ -16,12 +16,12 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from pestinha.controle.sessao import SessaoMixin  # noqa: E402
+from bob.controle.sessao import SessaoMixin  # noqa: E402
 
 
 @pytest.fixture
 def macos():
-    return pytest.importorskip("pestinha.plataforma.macos", exc_type=ImportError)
+    return pytest.importorskip("bob.plataforma.macos", exc_type=ImportError)
 
 
 class PainelFalso:
@@ -123,7 +123,7 @@ def test_no_cocoa_sem_pyobjc_o_pet_continua_funcionando(macos, monkeypatch, nati
 
 def test_configuracoes_pedem_o_foco_ao_abrir(monkeypatch):
     dialogo = Mock()
-    monkeypatch.setattr("pestinha.controle.sessao.SettingsDialog", lambda *_a, **_k: dialogo)
+    monkeypatch.setattr("bob.controle.sessao.SettingsDialog", lambda *_a, **_k: dialogo)
     app = SimpleNamespace(settings=None, perms={}, paths=None, timeline=Mock(),
                           apply_perms=Mock(), wipe_all_data=Mock())
     SessaoMixin.open_settings(app)
@@ -135,7 +135,7 @@ def test_configuracoes_ja_abertas_pedem_o_foco_sem_abrir_outra(monkeypatch):
     dialogo = Mock()
     dialogo.isVisible.return_value = True
     outra = Mock()
-    monkeypatch.setattr("pestinha.controle.sessao.SettingsDialog", outra)
+    monkeypatch.setattr("bob.controle.sessao.SettingsDialog", outra)
     SessaoMixin.open_settings(SimpleNamespace(settings=dialogo))
     outra.assert_not_called()
     dialogo.raise_.assert_called_once()
